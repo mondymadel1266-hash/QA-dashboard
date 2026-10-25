@@ -15,51 +15,26 @@
   --text:#e8eaef;--text2:#9aa1af;--text3:#6b7280;
   --accent:#5c7cfa;--accent-l:rgba(92,124,250,.12);
   --purple:#a78bfa;--purple-l:rgba(167,139,250,.12);
-  --green:#34d399;--green-l:rgba(52,211,153,.12);--green-m:rgba(52,211,153,.2);
-  --red:#f87171;--red-l:rgba(248,113,113,.12);--red-m:rgba(248,113,113,.2);
-  --amber:#fbbf24;--amber-l:rgba(251,191,36,.12);--amber-m:rgba(251,191,36,.2);
-  --teal:#22d3ee;--teal-l:rgba(34,211,238,.12);
-  --shadow:0 1px 2px rgba(0,0,0,.5);
-  --shadow-md:0 10px 28px rgba(0,0,0,.5);
-  --shadow-lg:0 28px 70px rgba(0,0,0,.65);
-  --r:10px;--r-lg:14px;--r-xl:20px;
-  --sbw:250px;--sbw-c:0px;
-  --topbar-bg:rgba(13,16,22,.85);--chart-grid:rgba(255,255,255,.09);--credit-rule:rgba(154,161,175,.3);
+  --green:#34d399;--green-l:rgba(52,211,153,.12);
+  --red:#f87171;--red-l:rgba(248,113,113,.12);
+  --r:10px;--r-lg:14px;
 }
-html[data-theme="light"]{
-  color-scheme:light;--bg:#f3f5f8;--bg2:#ffffff;--white:#ffffff;--panel2:#edf1f6;
-  --border:#dce2ea;--border2:#c6cfdb;--text:#18202e;--text2:#465268;--text3:#626e80;
-  --accent:#3559d5;--accent-l:rgba(53,89,213,.1);--purple:#7441ba;--purple-l:rgba(116,65,186,.1);
-  --green:#087b54;--green-l:rgba(8,123,84,.1);--green-m:rgba(8,123,84,.2);
-  --red:#c43240;--red-l:rgba(196,50,64,.1);--red-m:rgba(196,50,64,.2);
-  --amber:#946300;--amber-l:rgba(148,99,0,.1);--amber-m:rgba(148,99,0,.2);
-  --teal:#087c91;--teal-l:rgba(8,124,145,.1);--topbar-bg:rgba(255,255,255,.94);
-  --shadow:0 1px 2px rgba(20,32,50,.08);--shadow-md:0 10px 28px rgba(20,32,50,.12);
-  --shadow-lg:0 28px 70px rgba(20,32,50,.18);--chart-grid:rgba(24,32,46,.12);--credit-rule:#c6cfdb;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes spin{to{transform:rotate(360deg)}}
-html{color-scheme:dark}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
 .shell{display:flex;min-height:100vh}
-.sidebar{width:var(--sbw);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;transition:width .18s ease;z-index:150}
-.content-wrap{flex:1;min-width:0;display:flex;flex-direction:column}
-.topbar{background:var(--topbar-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);height:60px;padding:0 22px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
-.main{padding:22px 28px 40px;max-width:1480px;margin:0 auto}
-.page{display:none}.page.active{display:block;animation:fadeUp .3s ease both}
+.main{padding:22px 28px 40px;max-width:1480px;margin:0 auto;width:100%}
 body.auth-locked{overflow:hidden}
 body.auth-locked .shell{display:none}
-.auth{position:fixed;inset:0;z-index:9999;display:grid;grid-template-columns:minmax(320px,5fr) minmax(420px,6fr);background:var(--bg);color:var(--text);font-family:'Cairo','Inter',sans-serif;font-size:14px;line-height:1.6}
+.auth{position:fixed;inset:0;z-index:9999;display:grid;grid-template-columns:1fr 1fr;background:var(--bg);color:var(--text);font-family:'Cairo','Inter',sans-serif}
 .auth[hidden]{display:none}
 .auth-brand{padding:44px 48px;color:#fff;background:linear-gradient(160deg,#1f2a5a,#14183a);display:flex;flex-direction:column;justify-content:space-between}
-.auth-main{display:flex;flex-direction:column;overflow-y:auto;padding:22px 28px}
+.auth-main{display:flex;flex-direction:column;justify-content:center;padding:22px 28px}
 .auth-card{width:100%;max-width:480px;margin:auto}
-.auth-accounts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .auth-btn{width:100%;height:48px;border:0;border-radius:12px;cursor:pointer;color:#fff;background:var(--accent);font-weight:700;margin-top:16px}
 </style>
 </head>
 <body class="auth-locked">
-<div class="auth" id="authRoot" role="dialog" aria-modal="true" lang="ar" dir="rtl">
+
+<div class="auth" id="authRoot" role="dialog" lang="ar" dir="rtl">
   <aside class="auth-brand">
     <h1>لوحة أداء الجودة</h1>
     <p>متابعة أداء الوكلاء وتحليل جودة المكالمات.</p>
@@ -67,10 +42,15 @@ body.auth-locked .shell{display:none}
   <main class="auth-main">
     <form class="auth-card" id="authForm">
       <h2>تسجيل الدخول</h2>
-      <div id="authAccounts" class="auth-accounts"></div>
+      <div style="margin-top:15px">
+        <label>الحساب</label>
+        <select id="authAcct" style="width:100%;height:40px;padding:5px;margin-top:5px;border-radius:8px;border:1px solid #ccc;background:var(--white);color:var(--text)">
+          <option value="admin">مدير النظام (Admin)</option>
+        </select>
+      </div>
       <div style="margin-top:15px">
         <label>كلمة المرور</label>
-        <input id="authPw" type="password" style="width:100%;height:40px;padding:5px;margin-top:5px;border-radius:8px;border:1px solid #ccc">
+        <input id="authPw" type="password" style="width:100%;height:40px;padding:5px;margin-top:5px;border-radius:8px;border:1px solid #ccc;background:var(--white);color:var(--text)">
       </div>
       <button type="submit" class="auth-btn">دخول</button>
     </form>
@@ -80,14 +60,11 @@ body.auth-locked .shell{display:none}
 <div class="shell" id="shell">
   <main class="main">
     <h1>لوحة التحكم الرئيسية</h1>
+    <p>أهلاً بك في النظام، تعمل اللوحة الآن بدون أي خدمات خارجية.</p>
   </main>
 </div>
 
 <script>
-const ACCOUNTS=[
-  {id:"admin", role:"admin", en:"Mo Adel", color:"#4468e0", salt:"1d348f6ebffea8ec30914e008ab91dde", hash:"11c43d91cf00073857a0661f5bb5748ecad5d0e12c141ab3e778bbb375d759e1"}
-];
-document.getElementById('authAccounts').innerHTML=`<label><input type="radio" name="authAcct" value="admin" checked> Admin</label>`;
 document.getElementById('authForm').addEventListener('submit', (e)=>{
   e.preventDefault();
   document.body.classList.remove('auth-locked');
